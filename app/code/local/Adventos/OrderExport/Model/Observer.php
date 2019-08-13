@@ -176,7 +176,8 @@ class Adventos_OrderExport_Model_Observer {
 				$productOptions = unserialize($item->getData('product_options'));
 				
 				if ((floatval($productPrice) == 0) && (array_key_exists('bundle_selection_attributes' , $productOptions))) {
-					$productPrice = floatval(unserialize(unserialize($item->getData('product_options'))['bundle_selection_attributes'])['price']);
+					$bundleSelectionAttributes = unserialize($productOptions['bundle_selection_attributes']);
+					$productPrice = floatval($bundleSelectionAttributes['price']);
 					$productPrice = number_format($productPrice,4);
 				}
 				
