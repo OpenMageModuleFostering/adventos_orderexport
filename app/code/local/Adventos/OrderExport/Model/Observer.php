@@ -150,7 +150,8 @@ class Adventos_OrderExport_Model_Observer
 		$streetSA = $order->getShippingAddress()->getStreet();
 
 		$customerGroupId = $order->getCustomerGroupId ();
-
+		$customerGroupName = "";
+		
 		$group = Mage::getModel ('customer/group')->load ($customerGroupId);
 		if ($group->getId()){
 			$customerGroupName = $group->getCode();
@@ -160,6 +161,17 @@ class Adventos_OrderExport_Model_Observer
 			$customerEmail = $order->getCustomerEmail();
 		} else {
 			$customerEmail = $customer->getEmail();
+		}
+
+		$exportVatGroup = Mage::getStoreConfig('catalog/orderexport/B2B_HomeGroup');
+		$exportVatGroup = explode(",", $exportVatGroup);
+		
+		if (in_array($customerGroupId, $exportVatGroup)) {
+			$order->getBillingAddress()->getvat_id() ? $billing_vat_id = $order->getBillingAddress()->getCountry().$order->getBillingAddress()->getvat_id() : $billing_vat_id = "";
+			$order->getShippingAddress()->getvat_id() ? $shipping_vat_id = $order->getShippingAddress()->getCountry().$order->getShippingAddress()->getvat_id() : $shipping_vat_id = "";
+		}else{
+			$billing_vat_id = "";
+			$shipping_vat_id = "";
 		}
 
 		$saleorder = array(
@@ -193,7 +205,9 @@ class Adventos_OrderExport_Model_Observer
 						"city" => $order->getShippingAddress()->getCity(),
 						"postcode" => $order->getShippingAddress()->getPostcode(),
 						"country" => $order->getShippingAddress()->getCountry(),
-						"phone" => $order->getShippingAddress()->getTelephone()
+						"phone" => $order->getShippingAddress()->getTelephone(),
+						"addressid" => $order->getShippingAddress()->getCustomerAddressId(),
+						"vatid" => $shipping_vat_id						
 				),
 				"billing_address" => array(
 						"firstname" => $order->getBillingAddress()->getFirstname(),
@@ -204,7 +218,9 @@ class Adventos_OrderExport_Model_Observer
 						"city" => $order->getBillingAddress()->getCity(),
 						"postcode" => $order->getBillingAddress()->getPostcode(),
 						"country" => $order->getBillingAddress()->getCountry(),
-						"phone" => $order->getBillingAddress()->getTelephone()
+						"phone" => $order->getBillingAddress()->getTelephone(),
+						"addressid" => $order->getBillingAddress()->getCustomerAddressId(),
+						"vatid" => $billing_vat_id
 				),
 				"lines" => $productArray,
 		);
@@ -233,7 +249,7 @@ class Adventos_OrderExport_Model_Observer
 		{
 			Mage::logException($e);
 		}
-		
+
 		$web_exported = @array();
 		$allStores = Mage::app()->getStores();
 		foreach ($allStores as $_eachStoreId => $val) {

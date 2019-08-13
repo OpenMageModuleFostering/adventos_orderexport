@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Adventos_OrderExport>
-			<version>1.3.1</version>
+			<version>1.3.2</version>
 		</Adventos_OrderExport>
 	</modules>
 	<global>
@@ -47,6 +47,7 @@
 				<storage_id>2</storage_id>
 				<store_language>de</store_language>
 				<export_path></export_path>
+				<B2B_HomeGroup></B2B_HomeGroup>
 			</orderexport>
 		</catalog>
 	</default>
