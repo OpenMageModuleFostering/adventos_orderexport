@@ -82,6 +82,23 @@ class Adventos_OrderExport_Model_Observer
 
 		return $this;
 	}
+	
+	public function _translateLiteral2NumericEntities($xmlSource, $reverse=FALSE) {
+		static $literal2NumericEntity;
+	
+		if (empty($literal2NumericEntity)) {
+			$transTbl = get_html_translation_table(HTML_ENTITIES);
+			foreach ($transTbl as $char => $entity) {
+				if (strpos('&"<>', $char) !== FALSE) continue;
+				$literal2NumericEntity[$entity] = '&#'.ord($char).';';
+			}
+		}
+		if ($reverse) {
+			return strtr($xmlSource, array_flip($literal2NumericEntity));
+		} else {
+			return strtr($xmlSource, $literal2NumericEntity);
+		}
+	}
 
 	public function toXML($data, $rootNodeName='base',$xml=null){
 		if ($xml == null){
@@ -110,6 +127,9 @@ class Adventos_OrderExport_Model_Observer
 			} else {
 				// add single node.
 				$value = str_replace('€','EUR',$value);
+				Mage::log("ADVENTOS XML before value: ".$value);
+				$value = htmlspecialchars($value);
+				Mage::log("ADVENTOS XML encoded value: ".$value);
 				$xml->addChild($key,$value);
 			}
 
