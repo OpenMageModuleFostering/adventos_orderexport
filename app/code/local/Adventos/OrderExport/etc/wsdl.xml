@@ -1,120 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
-    name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
-    <types>
-        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
-            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
-            <complexType name="orderItemIdQty">
-                <all>
-                    <element name="order_item_id" type="xsd:int" />
-                    <element name="qty" type="xsd:double" />
-                </all>
-            </complexType>
-            <complexType name="orderItemIdQtyArray">
-                <complexContent>
-                    <restriction base="soapenc:Array">
-                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:orderItemIdQty[]" />
-                    </restriction>
-                </complexContent>
-            </complexType>
-			<complexType name="salesOrderCreditmemoData">
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="urn:Magento">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"
+				schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="orderItemIdQty">
 				<all>
-					<element name="qtys" type="typens:orderItemIdQtyArray" minOccurs="0" />
-					<element name="shipping_amount" type="xsd:double" minOccurs="0" />
-					<element name="adjustment_positive" type="xsd:double" minOccurs="0" />
-					<element name="adjustment_negative" type="xsd:double" minOccurs="0" />
+					<element name="order_item_id" type="xsd:int" />
+					<element name="qty" type="xsd:double" />
 				</all>
 			</complexType>
-        </schema>
-    </types>
-    <portType name="{{var wsdl.handler}}PortType">
+			<complexType name="orderItemIdQtyArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="typens:orderItemIdQty[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="salesOrderCreditmemoData">
+				<all>
+					<element name="qtys" type="typens:orderItemIdQtyArray"
+						minOccurs="0" />
+					<element name="shipping_amount" type="xsd:double"
+						minOccurs="0" />
+					<element name="adjustment_positive" type="xsd:double"
+						minOccurs="0" />
+					<element name="adjustment_negative" type="xsd:double"
+						minOccurs="0" />
+				</all>
+			</complexType>
+		</schema>
+	</types>
+	<portType name="{{var wsdl.handler}}PortType">
 		<operation name="adventosCreditmemoCreate">
-            <documentation>Create new Credit memo for order</documentation>
-            <input message="typens:adventosCreditmemoCreateRequest" />
-            <output message="typens:adventosCreditmemoCreateResponse" />
-        </operation>
-        <operation name="adventosInvoiceCreate">
-            <documentation>Create new invoice for order</documentation>
-            <input message="typens:adventosInvoiceCreateRequest" />
-            <output message="typens:adventosInvoiceCreateResponse" />
-        </operation>
-        <operation name="adventosShipmentCreate">
-            <documentation>Create new shipment for order</documentation>
-            <input message="typens:adventosShipmentCreateRequest" />
-            <output message="typens:adventosShipmentCreateResponse" />
-        </operation>
-    </portType>
-    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
-        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation name="adventosCreditmemoCreate">
-            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
-            <input>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </input>
-            <output>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </output>
-        </operation>
-        <operation name="adventosInvoiceCreate">
-            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
-            <input>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </input>
-            <output>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </output>
-        </operation>
-        <operation name="adventosShipmentCreate">
-            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
-            <input>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </input>
-            <output>
-                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-            </output>
-        </operation>
-    </binding>
-    <service name="{{var wsdl.name}}Service">
-        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
-            <soap:address location="{{var wsdl.url}}" />
-        </port>
-    </service>
-    <message name="adventosCreditmemoCreateRequest">
-        <part name="sessionId" type="xsd:string" />
-        <part name="orderId" type="xsd:string" />
-        <part name="creditmemoData" type="typens:salesOrderCreditmemoData" />
-        <part name="creditmemoNr" type="xsd:string" />
+			<documentation>Create new Credit memo for order</documentation>
+			<input message="typens:adventosCreditmemoCreateRequest" />
+			<output message="typens:adventosCreditmemoCreateResponse" />
+		</operation>
+		<operation name="adventosInvoiceCreate">
+			<documentation>Create new invoice for order</documentation>
+			<input message="typens:adventosInvoiceCreateRequest" />
+			<output message="typens:adventosInvoiceCreateResponse" />
+		</operation>
+		<operation name="adventosShipmentCreate">
+			<documentation>Create new shipment for order</documentation>
+			<input message="typens:adventosShipmentCreateRequest" />
+			<output message="typens:adventosShipmentCreateResponse" />
+		</operation>
+	</portType>
+	<binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+		<soap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="adventosCreditmemoCreate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="adventosInvoiceCreate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="adventosShipmentCreate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+	<service name="{{var wsdl.name}}Service">
+		<port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+			<soap:address location="{{var wsdl.url}}" />
+		</port>
+	</service>
+	<message name="adventosCreditmemoCreateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="orderId" type="xsd:string" />
+		<part name="creditmemoData" type="typens:salesOrderCreditmemoData" />
+		<part name="creditmemoNr" type="xsd:string" />
 		<part name="comment" type="xsd:string" />
 		<part name="notifyCustomer" type="xsd:int" />
 		<part name="includeComment" type="xsd:int" />
 		<part name="refundToStoreCreditAmount" type="xsd:string" />
-    </message>
-    <message name="adventosCreditmemoCreateResponse">
+	</message>
+	<message name="adventosCreditmemoCreateResponse">
 		<part name="creditmemoIncrementId" type="xsd:int" />
-    </message>
-    <message name="adventosInvoiceCreateRequest">
-        <part name="sessionId" type="xsd:string" />
-        <part name="orderId" type="xsd:string" />
-        <part name="itemsQty" type="typens:orderItemIdQtyArray" />
+	</message>
+	<message name="adventosInvoiceCreateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="orderId" type="xsd:string" />
+		<part name="itemsQty" type="typens:orderItemIdQtyArray" />
 		<part name="invoiceNr" type="xsd:string" />
-        <part name="comment" type="xsd:string" />
-        <part name="email" type="xsd:string" />
-        <part name="includeComment" type="xsd:string" />
-    </message>
-    <message name="adventosInvoiceCreateResponse">
+		<part name="comment" type="xsd:string" />
+		<part name="email" type="xsd:string" />
+		<part name="includeComment" type="xsd:string" />
+	</message>
+	<message name="adventosInvoiceCreateResponse">
 		<part name="invoiceIncrementId" type="xsd:int" />
-    </message>
-    <message name="adventosShipmentCreateRequest">
-        <part name="sessionId" type="xsd:string" />
-        <part name="orderId" type="xsd:string" />
-        <part name="itemsQty" type="typens:orderItemIdQtyArray" />
-        <part name="shipmentNr" type="xsd:string" />
-        <part name="comment" type="xsd:string" />
-        <part name="email" type="xsd:int" />
-        <part name="includeComment" type="xsd:int" />
-    </message>
-    <message name="adventosShipmentCreateResponse">
-        <part name="shipmentIncrementId" type="xsd:int" />
-    </message>
+	</message>
+	<message name="adventosShipmentCreateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="orderId" type="xsd:string" />
+		<part name="itemsQty" type="typens:orderItemIdQtyArray" />
+		<part name="shipmentNr" type="xsd:string" />
+		<part name="comment" type="xsd:string" />
+		<part name="email" type="xsd:int" />
+		<part name="includeComment" type="xsd:int" />
+	</message>
+	<message name="adventosShipmentCreateResponse">
+		<part name="shipmentIncrementId" type="xsd:int" />
+	</message>
 </definitions> 

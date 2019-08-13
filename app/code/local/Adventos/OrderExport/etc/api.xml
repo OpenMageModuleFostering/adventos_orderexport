@@ -24,7 +24,8 @@
 					</create>
 				</methods>
 			</adventos_shipment>
-			<adventos_creditmemo translate="title" module="adventos_orderexport">
+			<adventos_creditmemo translate="title"
+				module="adventos_orderexport">
 				<title>Custom Credit memo functions for OrderExport</title>
 				<model>orderexport/creditmemo_api</model>
 				<acl>sales/order</acl>
@@ -36,17 +37,17 @@
 				</methods>
 			</adventos_creditmemo>
 		</resources>
-        <resources_alias>
-            <adventos_invoice>adventos_invoice</adventos_invoice>
+		<resources_alias>
+			<adventos_invoice>adventos_invoice</adventos_invoice>
 			<adventos_shipment>adventos_shipment</adventos_shipment>
 			<adventos_creditmemo>adventos_creditmemo</adventos_creditmemo>
-        </resources_alias>
-        <v2>
-            <resources_function_prefix>
-                <adventos_invoice>adventosInvoice</adventos_invoice>
+		</resources_alias>
+		<v2>
+			<resources_function_prefix>
+				<adventos_invoice>adventosInvoice</adventos_invoice>
 				<adventos_shipment>adventosShipment</adventos_shipment>
 				<adventos_creditmemo>adventosCreditmemo</adventos_creditmemo>
-            </resources_function_prefix>
-        </v2>
+			</resources_function_prefix>
+		</v2>
 	</api>
 </config>
