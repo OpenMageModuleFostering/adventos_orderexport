@@ -1,13 +1,13 @@
 {
     "name": "OpenMageModuleFostering/Adventos_OrderExport",
     "type": "magento-module",
-    "license": "OSL",
+    "license": "OSL-v3.0",
     "homepage": "",
-    "description": "OrderExport",
+    "description": "HOFAKT Order and Fullfillment Extension",
     "authors": [
     {
-        "name": "ADVENTOS GmbH",
-        "email": "magentomodules@adventos.de"
+        "name": "Karsten Hoffmann",
+        "email": "info@adventos.de"
     }
 ],
     "suggest": {

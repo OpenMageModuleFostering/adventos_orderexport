@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Adventos_OrderExport>
-			<version>0.3.2</version>
+			<version>1.2.0</version>
 		</Adventos_OrderExport>
 	</modules>
 	<global>
@@ -28,6 +28,18 @@
 			</sales_order_place_after>
 		</events>
 	</global>
+	<crontab>
+		<jobs>
+			<orderexport>
+				<schedule>
+					<cron_expr>0 22 * * *</cron_expr>
+				</schedule>
+				<run>
+					<model>orderexport/observer::generateCatalogInventoryFile</model>
+				</run>
+			</orderexport>
+		</jobs>
+	</crontab>
 	<default>
 		<catalog>
 			<orderexport>

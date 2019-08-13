@@ -27,11 +27,11 @@
 			<adventos_creditmemo translate="title" module="adventos_orderexport">
 				<title>Custom Credit memo functions for OrderExport</title>
 				<model>orderexport/creditmemo_api</model>
-				<acl>sales/order/creditmemo</acl>
+				<acl>sales/order</acl>
 				<methods>
 					<create translate="title" module="adventos_orderexport">
 						<title>Create new Credit memo for order</title>
-						<acl>sales/order/creditmemo/create</acl>
+						<acl>sales/order</acl>
 					</create>
 				</methods>
 			</adventos_creditmemo>
