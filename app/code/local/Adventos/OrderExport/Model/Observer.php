@@ -139,17 +139,19 @@ class Adventos_OrderExport_Model_Observer
 					"product_name" => $item->getName(),
 					"product_qty" => $item->getQtyOrdered(),
 					"product_price" => $item->getPrice(),
+					"product_discount_percent" => $item->getDiscountPercent(),
 					"product_row_discount_amount" => $item->getDiscountAmount(),
 					"product_row_price" => $item->getQtyOrdered() * $item->getPrice() - $item->getDiscountAmount(),
 					"product_order_id" => $order->getRealOrderId(),
 					"product_order_item_id" => $item->getId(),
+					"product_description" => "",
 			);
 		}
 
 		$streetBA = $order->getBillingAddress()->getStreet();
 		$streetSA = $order->getShippingAddress()->getStreet();
 
-		$customerGroupId = $order->getCustomerGroupId ();
+		$customerGroupId = $order->getCustomerGroupId();
 		$customerGroupName = "";
 		
 		$group = Mage::getModel ('customer/group')->load ($customerGroupId);
@@ -182,7 +184,7 @@ class Adventos_OrderExport_Model_Observer
 				"hofakt_language" => Mage::getStoreConfig('catalog/orderexport/store_language'),
 				"payment" => $order->getPayment()->getMethod(),
 				"shipping_amount" => $order->getShippingAmount(),
-				"discount_amount" => $order->getDiscountAmount(),
+				"discount_amount" => 0,
 				"discount_descr" => $order->getDiscountDescription(),
 				"net_total" => $order->getSubtotal(),
 				"tax_amount" => $order->getTaxAmount(),
