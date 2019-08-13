@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Adventos_OrderExport>
-			<version>1.4.0</version>
+			<version>1.4.1</version>
 		</Adventos_OrderExport>
 	</modules>
 	<admin>

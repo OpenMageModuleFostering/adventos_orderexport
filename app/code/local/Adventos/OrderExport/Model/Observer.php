@@ -448,6 +448,7 @@ class Adventos_OrderExport_Model_Observer {
 		$order = $observer->getEvent()->getOrder();
 		Mage::log("an order has been received. Order status is: ".$order->getStatus());
 		if ($order->getStatus() == Mage_Sales_Model_Order::STATE_PROCESSING) {
+			$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
 			Mage::dispatchEvent('adventos_orderexport_export_single_order' , array('order' => $order));
 			Mage::Log("==== Export Event Fired ===");				
 		}
