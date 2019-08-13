@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Adventos_OrderExport</name>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <stability>stable</stability>
     <license uri="http://opensource.org/licenses/osl-3.0.php">OSL</license>
     <channel>community</channel>
@@ -10,9 +10,9 @@
     <description>Create Order XML file to integrate Magento with HeadOffice  and synchronize stock, order status, invoice, shipments and credit memos.</description>
     <notes>Bug fix: Export orders that have the "Processing" status by default. </notes>
     <authors><author><name>Karsten Hoffmann</name><user>adventos</user><email>karsten@adventos.de</email></author></authors>
-    <date>2014-10-02</date>
-    <time>14:21:49</time>
-    <contents><target name="magelocal"><dir name="Adventos"><dir name="OrderExport"><dir name="Helper"><file name="Data.php" hash="f90dd7d2136cfb6349ba1d7ee939cd15"/></dir><dir name="Model"><dir name="Creditmemo"><dir name="Api"><file name="V2.php" hash="797a58eedbbe8bf1a0c20d7c8599f8be"/></dir><file name="Api.php" hash="c41e82cf79235d51f25d248719e93f92"/></dir><dir name="Invoice"><dir name="Api"><file name="V2.php" hash="3596dc5fe58a597ba5f244b52687288e"/></dir><file name="Api.php" hash="280512b1ae37690871384b3cba0a3a2b"/></dir><file name="Observer.php" hash="8037bf29b8c1902f3fbfa0dc9d17d3de"/><dir name="Shipment"><dir name="Api"><file name="V2.php" hash="3d7824e13e4d5cedb755b4858398f23e"/></dir><file name="Api.php" hash="0b9bf452b7e36c1ee5cefbb3d6c5eb3b"/></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="IndexController.php" hash="b9e0e5a0baabed9482061f5c7c12a5ff"/></dir></dir><dir name="etc"><file name="api.xml" hash="c1b2bc277e329b8191bcc5358cb96581"/><file name="config.xml" hash="a2d7afc47d1a825fd9f91a807055d70e"/><file name="system.xml" hash="d7feaf247eed064d617138508dd88fe4"/><file name="wsdl.xml" hash="1538d2cb05f819c45e807f992c1b7cb3"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Adventos_OrderExport.xml" hash="479b13bf3a08de9f93f5f58d77d3f9bb"/></dir></target></contents>
+    <date>2014-10-13</date>
+    <time>08:57:07</time>
+    <contents><target name="magelocal"><dir name="Adventos"><dir name="OrderExport"><dir name="Helper"><file name="Data.php" hash="f90dd7d2136cfb6349ba1d7ee939cd15"/></dir><dir name="Model"><dir name="Creditmemo"><dir name="Api"><file name="V2.php" hash="797a58eedbbe8bf1a0c20d7c8599f8be"/></dir><file name="Api.php" hash="c41e82cf79235d51f25d248719e93f92"/></dir><dir name="Invoice"><dir name="Api"><file name="V2.php" hash="3596dc5fe58a597ba5f244b52687288e"/></dir><file name="Api.php" hash="280512b1ae37690871384b3cba0a3a2b"/></dir><file name="Observer.php" hash="89f3df45a785633cca243b159ba6d9c6"/><dir name="Shipment"><dir name="Api"><file name="V2.php" hash="3d7824e13e4d5cedb755b4858398f23e"/></dir><file name="Api.php" hash="0b9bf452b7e36c1ee5cefbb3d6c5eb3b"/></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="IndexController.php" hash="b9e0e5a0baabed9482061f5c7c12a5ff"/></dir></dir><dir name="etc"><file name="api.xml" hash="c1b2bc277e329b8191bcc5358cb96581"/><file name="config.xml" hash="b40c120be618fdfd7d1c298b1e2a99c5"/><file name="system.xml" hash="d7feaf247eed064d617138508dd88fe4"/><file name="wsdl.xml" hash="1538d2cb05f819c45e807f992c1b7cb3"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Adventos_OrderExport.xml" hash="479b13bf3a08de9f93f5f58d77d3f9bb"/></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.0.0</min><max>6.0.0</max></php></required></dependencies>
 </package>

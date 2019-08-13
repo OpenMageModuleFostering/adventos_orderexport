@@ -171,37 +171,50 @@ class Adventos_OrderExport_Model_Observer {
 				$discount_percent = $item->getDiscountPercent ();
 				$discountAmount = $item->getDiscountAmount ();
 				
+				// if the item is in a bundle and has a price of 0 , retrieve it's price from the bundle
+				$productPrice = $item->getPrice();
+				$productOptions = unserialize($item->getData('product_options'));
+				
+				if ((floatval($productPrice) == 0) && (array_key_exists('bundle_selection_attributes' , $productOptions))) {
+					$productPrice = floatval(unserialize(unserialize($item->getData('product_options'))['bundle_selection_attributes'])['price']);
+					$productPrice = number_format($productPrice,4);
+				}
+				
+				
 				// typo in discount_percent
 				if ($discount_percent > 0) {
 					$product_row_price = $item->getQtyOrdered () * $item->getOrginalPrice () - $item->getDiscountAmount ();
 				} else {
-					$product_row_price = $item->getQtyOrdered () * $item->getPrice () - $item->getDiscountAmount ();
+					$product_row_price = $item->getQtyOrdered () * $productPrice - $item->getDiscountAmount ();
 					
 					// when fixed amount per product calc discount percent value
 					// rowDiscountPercent = (rowqty * rowproductprice) / rowdiscountamount
 					
 					if ($discountAmount > 0) {
-						$discount_percent = round ( 100 * $discountAmount / ($item->getQtyOrdered () * $item->getPrice ()), 2 );
+						$discount_percent = round (100 * $discountAmount / ($item->getQtyOrdered () * $productPrice), 2 );
 						if ($discount_percent == 100.00) {
 							$discount_percent = 99.99;
 						}
 					}
 				}
-
+				
 				
 				$productArray [] = array (
 					"product_sku" => $item->getSku (),
 					"product_magento_id" => $item->getProductId (),
 					"product_name" => $item->getName (),
 					"product_qty" => $item->getQtyOrdered (),
-					"product_price" => $item->getPrice (),
+					"product_price" => $productPrice,
 					"product_discount_percent" => $item->getDiscountPercent (),
 					"product_row_discount_amount" => $item->getDiscountAmount (),
 					"product_row_price" => $product_row_price,
 					"product_order_id" => $order->getRealOrderId (),
 					"product_order_item_id" => $item->getId (),
 					"product_description" => ""
-				);										
+				);
+
+				//Mage::log(unserialize(unserialize($item->getData()['product_options'])[bundle_selection_attributes])['price']);
+				//Mage::log(unserialize($item->getData('product_options')));
 												
 			}
 		}
