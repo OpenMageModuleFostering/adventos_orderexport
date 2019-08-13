@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Adventos_OrderExport</name>
+    <version>1.0.1</version>
+    <stability>stable</stability>
+    <license>OSL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>OrderExport</summary>
+    <description>export Order 2 Hofakt</description>
+    <notes>generate XML-File with Orderdetails in var/export/SalesOrder_*.xml</notes>
+    <authors><author><name>ADVENTOS GmbH</name><user>adventos</user><email>magentomodules@adventos.de</email></author></authors>
+    <date>2012-05-11</date>
+    <time>10:10:09</time>
+    <contents><target name="magelocal"><dir name="Adventos"><dir name="OrderExport"><dir name="Helper"><file name="Data.php" hash="f90dd7d2136cfb6349ba1d7ee939cd15"/></dir><dir name="Model"><dir name="Creditmemo"><dir name="Api"><file name="V2.php" hash="afba3391027e1ebe798253cdc034d034"/></dir><file name="Api.php" hash="c41e82cf79235d51f25d248719e93f92"/></dir><dir name="Invoice"><dir name="Api"><file name="V2.php" hash="ed0e742f85e0f450c3387bb8a7738033"/></dir><file name="Api.php" hash="280512b1ae37690871384b3cba0a3a2b"/></dir><file name="Observer.php" hash="58bdcc404a42474761bd2cdf3b3ac532"/><dir name="Shipment"><dir name="Api"><file name="V2.php" hash="22acaee0fe176a65fc1071d4dab5d6f5"/></dir><file name="Api.php" hash="0b9bf452b7e36c1ee5cefbb3d6c5eb3b"/></dir></dir><dir name="etc"><file name="api.xml" hash="538bba91e396d0493fe236d6385d9049"/><file name="config.xml" hash="c542e81042d14fe59dddbe7ad511b23a"/><file name="system.xml" hash="5c5f13a808798403227d3fedd43c877f"/><file name="wsdl.xml" hash="b3e1086c7e06ece8e0c0e5f537b1480f"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Adventos_OrderExport.xml" hash="479b13bf3a08de9f93f5f58d77d3f9bb"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

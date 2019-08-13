@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config>
+	<api>
+		<resources>
+			<adventos_invoice translate="title" module="adventos_orderexport">
+				<title>Custom Invoice functions for OrderExport</title>
+				<model>orderexport/invoice_api</model>
+				<acl>sales/order/invoice</acl>
+				<methods>
+					<create translate="title" module="adventos_orderexport">
+						<title>Create new invoice for order</title>
+						<acl>sales/order/invoice/create</acl>
+					</create>
+				</methods>
+			</adventos_invoice>
+			<adventos_shipment translate="title" module="adventos_orderexport">
+				<title>Custom Shipment functions for OrderExport</title>
+				<model>orderexport/shipment_api</model>
+				<acl>sales/order/shipment</acl>
+				<methods>
+					<create translate="title" module="adventos_orderexport">
+						<title>Create new shipment for order</title>
+						<acl>sales/order/shipment/create</acl>
+					</create>
+				</methods>
+			</adventos_shipment>
+			<adventos_creditmemo translate="title" module="adventos_orderexport">
+				<title>Custom Credit memo functions for OrderExport</title>
+				<model>orderexport/creditmemo_api</model>
+				<acl>sales/order/creditmemo</acl>
+				<methods>
+					<create translate="title" module="adventos_orderexport">
+						<title>Create new Credit memo for order</title>
+						<acl>sales/order/creditmemo/create</acl>
+					</create>
+				</methods>
+			</adventos_creditmemo>
+		</resources>
+        <resources_alias>
+            <adventos_invoice>adventos_invoice</adventos_invoice>
+			<adventos_shipment>adventos_shipment</adventos_shipment>
+			<adventos_creditmemo>adventos_creditmemo</adventos_creditmemo>
+        </resources_alias>
+        <v2>
+            <resources_function_prefix>
+                <adventos_invoice>adventosInvoice</adventos_invoice>
+				<adventos_shipment>adventosShipment</adventos_shipment>
+				<adventos_creditmemo>adventosCreditmemo</adventos_creditmemo>
+            </resources_function_prefix>
+        </v2>
+	</api>
+</config>

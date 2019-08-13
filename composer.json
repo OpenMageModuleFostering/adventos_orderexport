@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Adventos_OrderExport",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "OrderExport",
+    "authors": [
+    {
+        "name": "ADVENTOS GmbH",
+        "email": "magentomodules@adventos.de"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
