@@ -154,6 +154,7 @@ class Adventos_OrderExport_Model_Observer
 				"store_id" => $order->getStoreId(),
 				"store_name" => Mage::getModel('core/store')->load($order->getStoreID())->getName(),
 				"hofakt_lager" => Mage::getStoreConfig('catalog/orderexport/storage_id'),
+				"hofakt_language" => Mage::getStoreConfig('catalog/orderexport/store_language'),
 				"payment" => $order->getPayment()->getMethod(),
 				"shipping_amount" => $order->getShippingAmount(),
 				"discount_amount" => $order->getDiscountAmount(),
