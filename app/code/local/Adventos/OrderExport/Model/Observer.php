@@ -149,6 +149,9 @@ class Adventos_OrderExport_Model_Observer
 
 				if ($discountAmount > 0) {
 					$discount_percent = round(100 * $discountAmount / ($item->getQtyOrdered() * $item->getPrice()),2);
+					if ($discount_percent == 100.00){
+						$discount_percent = 99.99;
+					}
 				}
 			}
 			
@@ -160,7 +163,7 @@ class Adventos_OrderExport_Model_Observer
 					"product_name" => $item->getName(),
 					"product_qty" => $item->getQtyOrdered(),
 					"product_price" => $item->getPrice(),
-					"product_discount_percent" => $discount_percent,
+					"product_discount_percent" => $item->getDiscountPercent(),
 					"product_row_discount_amount" => $item->getDiscountAmount(),
 					"product_row_price" => $product_row_price,
 					"product_order_id" => $order->getRealOrderId(),
@@ -228,6 +231,7 @@ class Adventos_OrderExport_Model_Observer
 						"city" => $order->getShippingAddress()->getCity(),
 						"postcode" => $order->getShippingAddress()->getPostcode(),
 						"country" => $order->getShippingAddress()->getCountry(),
+						"versadr1" => $order->getShippingAddress()->getRegionCode(),
 						"phone" => $order->getShippingAddress()->getTelephone(),
 						"addressid" => $order->getShippingAddress()->getCustomerAddressId(),
 						"vatid" => $shipping_vat_id
@@ -241,6 +245,7 @@ class Adventos_OrderExport_Model_Observer
 						"city" => $order->getBillingAddress()->getCity(),
 						"postcode" => $order->getBillingAddress()->getPostcode(),
 						"country" => $order->getBillingAddress()->getCountry(),
+						"versadr1" => $order->getBillingAddress()->getRegionCode(),
 						"phone" => $order->getBillingAddress()->getTelephone(),
 						"addressid" => $order->getBillingAddress()->getCustomerAddressId(),
 						"vatid" => $billing_vat_id
