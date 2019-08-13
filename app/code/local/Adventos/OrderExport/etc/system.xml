@@ -36,6 +36,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </store_language>
+                        <export_path translate="label">
+                            <label>Export Path</label>
+                            <comment>
+                             <![CDATA[Specify MultiShop Installation Export Path
+                             leave blank in Single Shop Installation]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </export_path>                        
                     </fields>
                 </orderexport>
             </groups>

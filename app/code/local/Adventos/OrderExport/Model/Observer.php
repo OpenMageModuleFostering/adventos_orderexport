@@ -60,6 +60,19 @@ class Adventos_OrderExport_Model_Observer
 		$file = "SalesOrder_".$order->getId().".xml";
 
 		$varExport = Mage::getBaseDir('export');
+		
+		if (Mage::getStoreConfig('catalog/orderexport/export_path') != null){
+			if (Mage::getStoreConfig('catalog/orderexport/export_path') != ""){
+				$OrderExportPath = Mage::getStoreConfig('catalog/orderexport/export_path');
+				if(!is_dir($varExport.DS.$OrderExportPath)){
+					Mage::log("ADVENTOS OrderExport Event - MultiShop ExportPath Folder not exist [".$OrderExportPath."]");
+					mkdir($varExport.DS.$OrderExportPath);
+				}
+				$file = $OrderExportPath."/".$file;
+				Mage::log("ADVENTOS OrderExport Event - Add MultiShop ExportPath [".$OrderExportPath."]");
+			}
+		}
+
 		$exportPath = $varExport.DS.$file;
 
 		$handle = fopen($exportPath,"w+");
@@ -205,32 +218,50 @@ class Adventos_OrderExport_Model_Observer
 		{
 			$inventoryArray = array();
 			$collection = Mage::getModel('catalog/product')->getCollection();
-			//		->addAttributeToSelect('*') // select all attributes
-			//		->setPageSize(10) // limit number of results returned
-			//		->setCurPage(4); // set the offset (useful for pagination)
-
 			foreach ($collection->load() as $item)
 			{
 				$inventoryArray[] = array(
-						"sku" => $item->getSku(),
-						"qty" => (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($item)->getQty(),
+					"sku" => $item->getSku(),
+					"qty" => (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($item)->getQty(),
 				);
 			}
-
 			$Xml = $this->toXml($inventoryArray,'catalogInventory');
 			$file = "CatalogInventoryExport.xml";
-
 			$varExport = Mage::getBaseDir('export');
-			$exportPath = $varExport.DS.$file;
-
-			$handle = fopen($exportPath,"w+");
-			fwrite($handle,$Xml);
-			fclose($handle);
-			Mage::log("ADVENTOS OrderExport CatalogInventoryExport - DONE");
 		}
 		catch (Exception $e)
 		{
 			Mage::logException($e);
+		}
+		
+		$web_exported = @array();
+		$allStores = Mage::app()->getStores();
+		foreach ($allStores as $_eachStoreId => $val) {
+			$exportXml = $Xml;
+			$exportFile = $file;
+			$_storeId = Mage::app()->getStore($_eachStoreId)->getId();
+			$_webId = Mage::app()->getStore($_eachStoreId)->getWebsiteId();
+			$app = Mage::app()->setCurrentStore($_storeId);
+			if (Mage::getStoreConfig('catalog/orderexport/process')){
+				if (!in_array($_webId, $web_exported)){
+					if (Mage::getStoreConfig('catalog/orderexport/export_path') != null){
+						if (Mage::getStoreConfig('catalog/orderexport/export_path') != ""){
+							$orderExportPath = Mage::getStoreConfig('catalog/orderexport/export_path');
+							if(!is_dir($varExport.DS.$orderExportPath)){
+								mkdir($varExport.DS.$orderExportPath);
+								Mage::log("ADVENTOS OrderExport Event - Add MultiShop ExportPath [".$orderExportPath."]");
+							}
+							$exportFile = $orderExportPath."/".$exportFile;
+						}
+					}
+					$exportPath = $varExport.DS.$exportFile;
+					$handle = fopen($exportPath,"w+");
+					fwrite($handle,$exportXml);
+					fclose($handle);
+					Mage::log("ADVENTOS OrderExport CatalogInventoryExport - [".$orderExportPath."] Done");
+				}
+				array_push($web_exported, $_webId);
+			}
 		}
 		Mage::log("ADVENTOS OrderExport CatalogInventoryExport - END");
 	}
