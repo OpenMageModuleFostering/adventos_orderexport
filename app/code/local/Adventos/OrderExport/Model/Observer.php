@@ -13,8 +13,8 @@
  * 20120210 ADD TAGS TaxVat Umsatzsteuer ID and Currency
  * 20120228 REMOVE netDiscount Calc
  * 20121011 ADD generateCatalogInventoryFile
- * TODO Add new Tag <fee> for Shell payment fee invoice 10 Bucks
- * TODO Handle Bundle Product > Split into Simple
+ * 20140820 CHANGE dispatchEvent to change Order_Status PENDING -> PROCESSING
+ * 20140929 ADD support for bundle products, removing duplicated configurable products
  */
 class Adventos_OrderExport_Model_Observer {
 	/**
@@ -134,6 +134,7 @@ class Adventos_OrderExport_Model_Observer {
 		return $doc->saveXML ();
 	}
 	public function createOrder($order) {
+		$isPreviousProductConfigurable = false;
 		$productArray = array (); // sale order line product wrapper
 		                          
 		// Magento required models
@@ -142,12 +143,30 @@ class Adventos_OrderExport_Model_Observer {
 		// walk the sale order lines
 		foreach ( $order->getAllItems () as $item ) 		// getAllVisibleItems() - getAllItems() - getItemCollection()
 		{
-			// Check if Item is Bundled
-			if ($item->getHasChildren () && $item->getData ( 'product_type' ) != Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-				//if ($item->getData ( 'product_type' ) == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE && $item->getHasChildren ()) {
+			// Check if Item is Bundled			
+			if ($item->getHasChildren () && $item->getData ('product_type') == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
 				Mage::log ( "ADVENTOS Skip Item Type with children = " . $item->getData ('product_type'));				
 			} else {
 				
+				// check if simple product has a configurable product. If yes, skip the product				
+				if ($isPreviousProductConfigurable) {					
+					if ($item->getData ('product_type') == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE) {						
+						$parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($item->getData('product_id'));
+						if (is_array($parentIds))
+							if (isset($parentIds[0])) {
+								$_product = Mage::getModel('catalog/product')->load($parentIds[0]);
+								if ($_product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+									continue;
+								}
+							} 
+						}
+					}
+ 
+					if ($item->getData ('product_type') == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE)
+						$isPreviousProductConfigurable = true;
+					else
+						$isPreviousProductConfigurable = false;
+						
 				$tax_amount = $item->getTaxAmount ();
 				$discount_percent = $item->getDiscountPercent ();
 				$discountAmount = $item->getDiscountAmount ();
@@ -168,21 +187,22 @@ class Adventos_OrderExport_Model_Observer {
 						}
 					}
 				}
+
 				
-				// Mage:log(print_r($item));
 				$productArray [] = array (
-						"product_sku" => $item->getSku (),
-						"product_magento_id" => $item->getProductId (),
-						"product_name" => $item->getName (),
-						"product_qty" => $item->getQtyOrdered (),
-						"product_price" => $item->getPrice (),
-						"product_discount_percent" => $item->getDiscountPercent (),
-						"product_row_discount_amount" => $item->getDiscountAmount (),
-						"product_row_price" => $product_row_price,
-						"product_order_id" => $order->getRealOrderId (),
-						"product_order_item_id" => $item->getId (),
-						"product_description" => "" 
-				);
+					"product_sku" => $item->getSku (),
+					"product_magento_id" => $item->getProductId (),
+					"product_name" => $item->getName (),
+					"product_qty" => $item->getQtyOrdered (),
+					"product_price" => $item->getPrice (),
+					"product_discount_percent" => $item->getDiscountPercent (),
+					"product_row_discount_amount" => $item->getDiscountAmount (),
+					"product_row_price" => $product_row_price,
+					"product_order_id" => $order->getRealOrderId (),
+					"product_order_item_id" => $item->getId (),
+					"product_description" => ""
+				);										
+												
 			}
 		}
 		
@@ -214,7 +234,6 @@ class Adventos_OrderExport_Model_Observer {
 			$shipping_vat_id = "";
 		}
 		
-		// Check if SalesOrder Fee is set
 		
 		// Check if SalesOrder Fee is set
 		if ($order->getFeeAmount () != null) {
@@ -419,4 +438,21 @@ class Adventos_OrderExport_Model_Observer {
 		}
 		
 	}
+	
+	/**
+	 * Exports the order when a new order has been received and its status is "processing"
+	 * 
+	 * @param object $observer
+	 */
+	public function exportNewProcessingOrder($observer) {
+		$order = $observer->getEvent()->getOrder();
+		Mage::log("an order has been received. Order status is: ".$order->getStatus());
+		if ($order->getStatus() == Mage_Sales_Model_Order::STATE_PROCESSING) {
+			Mage::dispatchEvent('adventos_orderexport_export_single_order' , array('order' => $order));
+			Mage::Log("==== Export Event Fired ===");				
+		}
+		
+	}
+	
+	
 }
