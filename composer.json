@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Adventos_OrderExport",
+    "name": "OpenMageModuleFostering\/Adventos_OrderExport",
     "type": "magento-module",
     "license": "OSL",
     "homepage": "",
     "description": "Magento integration for HeadOffice",
     "authors": [
-    {
-        "name": "Karsten Hoffmann",
-        "email": "karsten@adventos.de"
-    }
-],
+        {
+            "name": "Karsten Hoffmann",
+            "email": "karsten@adventos.de"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
